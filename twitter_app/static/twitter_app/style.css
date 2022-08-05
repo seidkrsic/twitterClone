@@ -195,13 +195,6 @@ input[type='submit'] {
 
 }
 
-
-
-/* @keyframes FadeIn {
-    0% {
-        visibility:0;
-    }
-    100% {
-      visibility: 1;
-    }
-} */
+#edit-btn { 
+    cursor: pointer;
+}

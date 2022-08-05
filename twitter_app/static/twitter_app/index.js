@@ -157,10 +157,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 `
                 <div class="flex-col post-box margin-top data-postId="${post.id}"> 
                     <p id="user-link" data-user="${post.creator.id}"> @${post.creator.first_name}${post.creator.last_name}</p>
-                    <p class="post-bg"> ${post.content} </p>
+                    <p id="post-content" class="post-bg"> ${post.content} </p>
+                    
                     <div class="flex-row">
                         <p id="numLikes" data-like=${post.id}> ${post.num_likes} likes</p>
                         <p data-id="${post.id}" id="likeBtn"> ${likedValue}</p>
+                        <p data-edit="${post.id}" id="edit-btn">Edit</p>
                     </div>
                     <h6> ${post.timestamp.substring(0,10)} Posted: ${post.timestamp.substring(11,19)}</h6>
                 </div>
@@ -169,7 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // here, i connect like button with database 
 
-               
+               editButtons = document.querySelectorAll('#edit-btn')
+            //    editPost(editButtons);
 
 
 
@@ -264,56 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         // here i create user-info part of profile - page 
 
                         profileInfoUsers(data);
-                        // function profileInfoUsers () {
-
                         
-                        // let userCard; 
-                        
-
-                        // let check = false;
-
-                        // for(let user of data.followers){ 
-                        //     if (user.id == localStorage.getItem('user_id')){ 
-                        //         check = true;
-                        //     }
-                        // }
-                        
-                    
-                        // let follow = "Follow";
-                        // if (check == true) {
-                        //     follow = "Unfollow";
-                        
-                        // }
-                        // else if (localStorage.getItem('user_id')== data.id) { 
-                        //     follow = '';
-                        // }
-
-
-
-
-                        
-
-                        // userCard = ` 
-                        //     <div class="flex-row user-card-info">
-                        //         <p data-user="${data.id}">@${data.first_name} ${data.last_name} </p>
-                        //         <div class="flex-col">
-                        //             <p>Followers: ${data.num_followers} </p>
-                        //             <p>Following: ${data.num_following} </p>
-                        //         </div>
-                        //         <div class="flex-row">
-                        //             <p id="follow" data-userid="${data.id}">${follow}</p>
-                                
-                        //         </div>
-                        //     </div>
-                        
-                        // `
-                        // document.querySelector('#profile-info').innerHTML = ''
-                        // document.querySelector('#profile-info').innerHTML += userCard;
-                        // document.querySelector('#profile-posts').innerHTML = ''
-
-                        
-                        //     // end of a function about profile...
-                        // }
                         // here ends fetch about user info..
                     })
 
@@ -1171,7 +1125,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // end of a function about profile...
             }
 
-   
+//    function editPost (buttons) { 
+
+//         buttons.forEach(button => { 
+
+//             button.onclick = function () { 
+//                 postContent = document.querySelector('#post-content');
+//                 postContent.innerHTML =`<textarea>${postContent}</textarea>`;
+                
+//             }
+//         })
+
+//    }
 
 // zagrada od DOMContentLOADED
 
