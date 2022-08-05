@@ -56,10 +56,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ['creator']
        
-
-    
     def update(self, instance, validated_data): 
-        #  instance.email = validated_data.get('email', instance.email) example line of code for helping mee
         instance.content  = validated_data.get('content', instance.content)
         instance.save()
         return instance 

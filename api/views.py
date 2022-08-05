@@ -145,7 +145,16 @@ def postCreate(request):
         return Response(serializer.data)
     else: 
         return Response(serializer.errors)
-    
+
+@api_view(['POST']) 
+def postUpdate(request,id):
+    post = Post.objects.get(id=id) 
+    serializer = PostSerializer(data=request.data,instance=post, partial=True)
+    if serializer.is_valid(): 
+        serializer.save()
+        return Response(serializer.data)
+    else: 
+        return Response(serializer.errors)
 
 
 

@@ -1,7 +1,7 @@
 
 
 document.addEventListener('DOMContentLoaded', () => { 
-
+  
   let token = localStorage.getItem('token');
   const userInfo = document.querySelector('#login-info')
 
@@ -157,8 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 `
                 <div class="flex-col post-box margin-top data-postId="${post.id}"> 
                     <p id="user-link" data-user="${post.creator.id}"> @${post.creator.first_name}${post.creator.last_name}</p>
-                    <p id="post-content" class="post-bg"> ${post.content} </p>
-                    
+                    <p data-postEdit="${post.id}" id="post-content" class="post-bg"> ${post.content} </p>
+                    <textarea data-area="${post.id}" style="display:none;"> </textarea>
                     <div class="flex-row">
                         <p id="numLikes" data-like=${post.id}> ${post.num_likes} likes</p>
                         <p data-id="${post.id}" id="likeBtn"> ${likedValue}</p>
@@ -171,8 +171,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // here, i connect like button with database 
 
-               editButtons = document.querySelectorAll('#edit-btn')
-            //    editPost(editButtons);
+               editButtons = document.querySelectorAll('#edit-btn');
+               console.log("EditButtons: ", editPost)
+               editPost(editButtons);
 
 
 
@@ -1125,18 +1126,101 @@ document.addEventListener('DOMContentLoaded', () => {
             // end of a function about profile...
             }
 
-//    function editPost (buttons) { 
-
-//         buttons.forEach(button => { 
-
-//             button.onclick = function () { 
-//                 postContent = document.querySelector('#post-content');
-//                 postContent.innerHTML =`<textarea>${postContent}</textarea>`;
+   function editPost (buttons) { 
+        
+        let textareas = document.querySelectorAll('textarea');
+            textareas.forEach(function (element) { 
+                element.style.display = 'none';
+                document.querySelector(`[data-postEdit="${element.dataset.area}"]`).style.display = 'block';
+                document.querySelector(`[data-edit="${element.dataset.area}"]`).innerHTML = 'Edit';
+        })
+        
+            buttons.forEach(button => { 
+               
+                button.onclick = edit;
                 
-//             }
-//         })
+                function edit ()  { 
+                    
+                    // here i disable all opened textareas... 
+                    closingOpenedTextAreas();
+                    
+                   
 
-//    }
+                    function closingOpenedTextAreas() {
+                        let textareas = document.querySelectorAll('textarea');
+                        console.log(textareas);
+                        textareas.forEach( function (element) { 
+                            element.style.display = 'none';
+                            document.querySelector(`[data-postEdit="${element.dataset.area}"]`).style.display = 'block';
+                            document.querySelector(`[data-edit="${element.dataset.area}"]`).innerHTML = 'Edit';
+                        
+                        })
+                    }
+                    // here is a place where i edit content... 
+
+                    // console.log(button.dataset.edit);
+                    change_to_textArea();
+                   
+                    function change_to_textArea () { 
+                        post_id = button.dataset.edit;
+                        let postContent = document.querySelector(`[data-postEdit="${post_id}"]`);
+                        postContent.style.display = 'none';
+                        console.log(postContent);
+                        let textAreaEdit = document.querySelector(`[data-area="${post_id}"]`)
+                        textAreaEdit.style.display = 'block';
+                        textAreaEdit.innerHTML = postContent.innerHTML;
+                        let saveBtn = document.querySelector(`[data-edit="${post_id}"]`)
+                        saveBtn.innerHTML = 'Save';
+                    
+                        saveBtn.onclick = function () { 
+                       
+                            // textAreaEdit.innerHTML = postContent.innerHTML;
+                            console.log('Success');
+                            console.log(this);
+                            postContent.style.display = 'block';
+                            textAreaEdit.style.display = 'none';
+                            saveBtn.innerHTML = 'Edit';
+                            
+                            let content = textAreaEdit.value;
+                            console.log(content);
+                            fetch(`http://127.0.0.1:8000/api/update/${post_id}/`,{ 
+                                method: "POST", 
+                                headers: { 
+                                    "Content-Type" : 'application/json',
+                                    Authorization: `Token ${localStorage.getItem('token')}`
+                                },
+                                body: JSON.stringify({'content':content})
+                            })
+                            .then(response => response.json())
+                            .then(data => { 
+                                console.log(data);
+                                postContent.innerHTML = data.content;
+                                saveBtn.onclick = edit;
+                                // edit();
+                            })
+
+
+                        
+                        
+                        
+                        
+                    }    
+                        
+                    
+                    }
+                    
+                    
+                    
+                
+
+                    
+                    
+                }
+
+            })
+        
+
+    }
 
 // zagrada od DOMContentLOADED
 
