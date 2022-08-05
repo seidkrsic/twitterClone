@@ -1,0 +1,61 @@
+{% extends 'twitter_app/layout.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<nav>
+   
+        <button id="all-posts">All posts</button>
+        <button id="profile-pageBtn">Profile Page</button>
+        <button id="followingBtn">Following</button>
+        <button id="logoutBtn">Log out</button>
+
+
+</nav>
+
+
+<h1>Social network</h1>
+
+    <h3 id="login-info"></h3>
+
+
+<hr>
+
+<div id="body-all" class="flex-col">
+    
+
+    <h2 id="post-header">All posts</h2>
+    <form id="user-post-form">
+        <input id="post-content" name="content" placeholder="What is on your mind?" type="text">
+        <input type="submit" value="Post">
+    </form>
+
+    <div id="posts">
+
+    </div>
+
+    <div id="profile-page">
+
+
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'twitter_app/index.js' %}"></script>
+{% endblock %}
